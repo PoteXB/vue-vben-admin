@@ -14,7 +14,6 @@ export const basicProps = {
   // 标签宽度  固定宽度
   labelWidth: {
     type: [Number, String] as PropType<number | string>,
-    default: 0,
   },
   fieldMapToTime: {
     type: Array as PropType<FieldMapToTime>,
@@ -67,6 +66,8 @@ export const basicProps = {
   showActionButtonGroup: propTypes.bool.def(true),
   // 操作列Col配置
   actionColOptions: Object as PropType<Partial<ColEx>>,
+
+  actionWrapperCol: Object as PropType<Partial<ColEx>>,
   // 显示重置按钮
   showResetButton: propTypes.bool.def(true),
   // 是否聚焦第一个输入框，只在第一个表单项为input的时候作用

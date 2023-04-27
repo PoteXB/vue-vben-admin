@@ -7,4 +7,6 @@ export interface LoadingProps {
   loading: boolean;
   background: string;
   theme: 'dark' | 'light';
+  zIndex: Number;
+  type: 'default' | 'card';
 }

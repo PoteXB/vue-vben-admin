@@ -12,12 +12,16 @@ interface Fn {
   (): void;
 }
 
-export function useLoading(props: Partial<LoadingProps>): [Fn, Fn, (string) => void];
-export function useLoading(opt: Partial<UseLoadingOptions>): [Fn, Fn, (string) => void];
+export function useLoading(
+  props: Partial<LoadingProps>,
+): [Fn, Fn, (string) => void, (string) => void];
+export function useLoading(
+  opt: Partial<UseLoadingOptions>,
+): [Fn, Fn, (string) => void, (string) => void];
 
 export function useLoading(
   opt: Partial<LoadingProps> | Partial<UseLoadingOptions>,
-): [Fn, Fn, (string) => void] {
+): [Fn, Fn, (string) => void, (string) => void] {
   let props: Partial<LoadingProps>;
   let target: HTMLElement | Ref<ElRef> = document.body;
 
@@ -45,5 +49,9 @@ export function useLoading(
     instance.setTip(tip);
   };
 
-  return [open, close, setTip];
+  const setType = (tip: 'card' | 'default' | undefined) => {
+    instance.setType(tip);
+  };
+
+  return [open, close, setTip, setType];
 }

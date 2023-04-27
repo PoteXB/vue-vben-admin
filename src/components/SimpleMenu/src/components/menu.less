@@ -12,7 +12,7 @@
     right: 0;
     bottom: 0;
     display: block;
-    width: 2px;
+    width: 0;
     content: '';
     background-color: @primary-color;
   }
@@ -107,7 +107,7 @@
     // }
 
     &-light {
-      background-color: #fff;
+      //background-color: #fff;
 
       .@{menu-prefix-cls}-submenu-active {
         color: @primary-color !important;
@@ -203,7 +203,7 @@
     }
 
     &-vertical &-opened > * > &-submenu-title-icon {
-      transform: translateY(-50%) rotate(180deg);
+      transform: translateY(-50%) rotate(90deg);
     }
 
     &-vertical &-submenu {
@@ -225,6 +225,9 @@
       }
       &-active.@{menu-prefix-cls}-submenu {
         color: @primary-color;
+        .@{menu-prefix-cls}-submenu-title {
+          background: #fff;
+        }
       }
     }
 

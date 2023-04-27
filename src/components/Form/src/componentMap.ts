@@ -24,12 +24,14 @@ import {
 import ApiRadioGroup from './components/ApiRadioGroup.vue';
 import RadioButtonGroup from './components/RadioButtonGroup.vue';
 import ApiSelect from './components/ApiSelect.vue';
+import ApiCustomSelect from './components/ApiCustomSelect.vue';
+import ApiCheckboxGroup from './components/ApiCheckboxGroup.vue';
 import ApiTree from './components/ApiTree.vue';
 import ApiTreeSelect from './components/ApiTreeSelect.vue';
 import ApiCascader from './components/ApiCascader.vue';
 import ApiTransfer from './components/ApiTransfer.vue';
-import { BasicUpload } from '/@/components/Upload';
-import { StrengthMeter } from '/@/components/StrengthMeter';
+import { BasicUpload, SimpleUpload } from '/@/components/Upload';
+import { InputPassword, StrengthMeter } from '/@/components/StrengthMeter';
 import { IconPicker } from '/@/components/Icon';
 import { CountdownInput } from '/@/components/CountDown';
 
@@ -37,7 +39,7 @@ const componentMap = new Map<ComponentType, Component>();
 
 componentMap.set('Input', Input);
 componentMap.set('InputGroup', Input.Group);
-componentMap.set('InputPassword', Input.Password);
+componentMap.set('InputPassword', InputPassword);
 componentMap.set('InputSearch', Input.Search);
 componentMap.set('InputTextArea', Input.TextArea);
 componentMap.set('InputNumber', InputNumber);
@@ -45,6 +47,7 @@ componentMap.set('AutoComplete', AutoComplete);
 
 componentMap.set('Select', Select);
 componentMap.set('ApiSelect', ApiSelect);
+componentMap.set('ApiCustomSelect', ApiCustomSelect);
 componentMap.set('ApiTree', ApiTree);
 componentMap.set('TreeSelect', TreeSelect);
 componentMap.set('ApiTreeSelect', ApiTreeSelect);
@@ -54,6 +57,7 @@ componentMap.set('RadioButtonGroup', RadioButtonGroup);
 componentMap.set('RadioGroup', Radio.Group);
 componentMap.set('Checkbox', Checkbox);
 componentMap.set('CheckboxGroup', Checkbox.Group);
+componentMap.set('ApiCheckboxGroup', ApiCheckboxGroup);
 componentMap.set('ApiCascader', ApiCascader);
 componentMap.set('Cascader', Cascader);
 componentMap.set('Slider', Slider);
@@ -70,6 +74,7 @@ componentMap.set('IconPicker', IconPicker);
 componentMap.set('InputCountDown', CountdownInput);
 
 componentMap.set('Upload', BasicUpload);
+componentMap.set('SimpleUpload', SimpleUpload);
 componentMap.set('Divider', Divider);
 
 export function add(compName: ComponentType, component: Component) {
@@ -81,3 +86,9 @@ export function del(compName: ComponentType) {
 }
 
 export { componentMap };
+
+const componentEventMap = {
+  ApiCheckboxGroup: 'checkChange',
+  SimpleUpload: 'uploadChange',
+};
+export { componentEventMap };

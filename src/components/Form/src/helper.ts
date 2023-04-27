@@ -16,6 +16,9 @@ export function createPlaceholderMessage(component: ComponentType) {
   if (component.includes('Picker')) {
     return t('common.chooseText');
   }
+  if (component.includes('SimpleUpload')) {
+    return t('common.uploadText');
+  }
   if (
     component.includes('Select') ||
     component.includes('Cascader') ||

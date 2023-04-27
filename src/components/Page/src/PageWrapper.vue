@@ -127,7 +127,13 @@
         return {
           ...contentStyle,
           minHeight: height,
-          ...(fixedHeight ? { height } : {}),
+          ...(fixedHeight
+            ? {
+                height,
+                overflowY: 'auto',
+                ...(unref(getShowFooter) ? { marginBottom: '45px' } : {}),
+              }
+            : {}),
         };
       });
 
@@ -194,6 +200,11 @@
       .@{prefix-cls}-content {
         margin: 0;
       }
+    }
+
+    &:after {
+      content: '';
+      display: table;
     }
   }
 </style>

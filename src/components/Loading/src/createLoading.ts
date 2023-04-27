@@ -51,6 +51,9 @@ export function createLoading(props?: Partial<LoadingProps>, target?: HTMLElemen
     setTip: (tip: string) => {
       data.tip = tip;
     },
+    setType: (type: 'card' | 'default' | undefined) => {
+      data.type = type;
+    },
     setLoading: (loading: boolean) => {
       data.loading = loading;
     },

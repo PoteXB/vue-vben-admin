@@ -2,10 +2,16 @@
   <section
     class="full-loading"
     :class="{ absolute, [theme]: !!theme }"
-    :style="[background ? `background-color: ${background}` : '']"
+    :style="[background ? `background-color: ${background}` : '', { 'z-index': zIndex }]"
     v-show="loading"
   >
-    <Spin v-bind="$attrs" :tip="tip" :size="size" :spinning="loading" />
+    <Spin
+      v-bind="$attrs"
+      :class="{ 'card-box': type === 'card' }"
+      :tip="tip"
+      :size="size"
+      :spinning="loading"
+    />
   </section>
 </template>
 <script lang="ts">
@@ -36,11 +42,19 @@
         type: Boolean as PropType<boolean>,
         default: false,
       },
+      // loading类型 -- card: 卡片类型
+      type: {
+        type: String as PropType<'default' | 'card'>,
+        default: 'default',
+      },
       background: {
         type: String as PropType<string>,
       },
       theme: {
         type: String as PropType<'dark' | 'light'>,
+      },
+      zIndex: {
+        type: Number,
       },
     },
   });
@@ -56,7 +70,7 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    background-color: rgb(240 242 245 / 40%);
+    background-color: rgb(240 242 245 / 60%);
 
     &.absolute {
       position: absolute;
@@ -64,6 +78,14 @@
       top: 0;
       left: 0;
     }
+  }
+  .card-box {
+    padding: 50px 70px;
+    background-color: #fff;
+    border-radius: 10px;
+  }
+  :deep(.ant-spin.ant-spin-show-text .ant-spin-text) {
+    margin-top: 10px;
   }
 
   html[data-theme='dark'] {
