@@ -2,7 +2,12 @@
  * @Description:It is troublesome to implement radio button group in the form. So it is extracted independently as a separate component
 -->
 <template>
-  <RadioGroup v-bind="attrs" v-model:value="state" button-style="solid">
+  <RadioGroup
+    v-bind="attrs"
+    v-model:value="state"
+    button-style="solid"
+    :class="{ hideRadio: hideRadio }"
+  >
     <template v-for="item in getOptions" :key="`${item.value}`">
       <RadioButton
         v-if="props.isBtn"
@@ -13,7 +18,8 @@
         {{ item.label }}
       </RadioButton>
       <Radio v-else :value="item.value" :disabled="item.disabled" @click="handleClick(item)">
-        {{ item.label }}
+        <VNode :content="labelRender(item, state)" v-if="labelRender" />
+        <template v-else>{{ item.label }}</template>
       </Radio>
     </template>
   </RadioGroup>
@@ -21,11 +27,14 @@
 <script lang="ts">
   import { defineComponent, type PropType, ref, watchEffect, computed, unref, watch } from 'vue';
   import { Radio } from 'ant-design-vue';
+  import VNode from './VNode.vue';
   import { isFunction } from '/@/utils/is';
   import { useRuleFormItem } from '/@/hooks/component/useFormItem';
+  import useFetchByPage from '/@/hooks/custom/useFetchByPage';
   import { useAttrs } from '@vben/hooks';
   import { propTypes } from '/@/utils/propTypes';
-  import { get, omit } from 'lodash-es';
+  import { BasicFetchResult } from '/@/api/model/baseModel';
+  import { omit } from 'lodash-es';
   import { useI18n } from '/@/hooks/web/useI18n';
 
   type OptionsItem = { label: string; value: string | number | boolean; disabled?: boolean };
@@ -36,10 +45,13 @@
       RadioGroup: Radio.Group,
       RadioButton: Radio.Button,
       Radio,
+      VNode,
     },
     props: {
       api: {
-        type: Function as PropType<(arg?: any | string) => Promise<OptionsItem[]>>,
+        type: Function as PropType<
+          (arg?: any) => Promise<OptionsItem[]> | Promise<BasicFetchResult<OptionsItem>>
+        >,
         default: null,
       },
       params: {
@@ -53,16 +65,25 @@
         type: [Boolean] as PropType<boolean>,
         default: false,
       },
+      hideRadio: {
+        type: [Boolean] as PropType<boolean>,
+        default: false,
+      },
+      labelRender: {
+        type: Function,
+      },
       numberToString: propTypes.bool,
       resultField: propTypes.string.def(''),
       labelField: propTypes.string.def('label'),
       valueField: propTypes.string.def('value'),
       immediate: propTypes.bool.def(true),
+      autoValue: propTypes.bool.def(false),
     },
     emits: ['options-change', 'change'],
     setup(props, { emit }) {
-      const options = ref<OptionsItem[]>([]);
-      const loading = ref(false);
+      const { options, loading, fetchByPage } = useFetchByPage<OptionsItem>({
+        ...props,
+      });
       const isFirstLoad = ref(true);
       const emitData = ref<any[]>([]);
       const attrs = useAttrs();
@@ -102,28 +123,23 @@
       async function fetch() {
         const api = props.api;
         if (!api || !isFunction(api)) return;
-        options.value = [];
-        try {
-          loading.value = true;
-          const res = await api(props.params);
-          if (Array.isArray(res)) {
-            options.value = res;
-            emitChange();
-            return;
-          }
-          if (props.resultField) {
-            options.value = get(res, props.resultField) || [];
-          }
-          emitChange();
-        } catch (error) {
-          console.warn(error);
-        } finally {
-          loading.value = false;
-        }
+        await fetchByPage(props.params);
+        emitChange();
+        autoSetValue();
       }
 
       function emitChange() {
         emit('options-change', unref(getOptions));
+      }
+
+      function autoSetValue() {
+        if (!props.autoValue) {
+          return;
+        }
+        const first = unref(getOptions)[0];
+        if (first) {
+          state.value = first['value'];
+        }
       }
 
       function handleClick(...args) {
@@ -134,3 +150,12 @@
     },
   });
 </script>
+<style lang="less" scoped>
+  @import '/@/components/CustomUi/src/ModelBindItem.less';
+  .hideRadio ::v-deep(.ant-radio) {
+    display: none;
+  }
+  .hideRadio ::v-deep(span.ant-radio + *) {
+    padding: 0;
+  }
+</style>

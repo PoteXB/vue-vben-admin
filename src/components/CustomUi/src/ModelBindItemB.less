@@ -1,0 +1,20 @@
+:deep(.ModelBindItemB .ant-checkbox-group-item) {
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 2px;
+  width: 190px;
+}
+:deep(.ModelBindItemB .ant-checkbox-group-item.ant-checkbox-wrapper-checked) {
+  border: 1px solid @primary-color;
+}
+:deep(.ModelBindItemB .ant-checkbox-group-item .ant-checkbox) {
+  display: none;
+  position: absolute;
+  left: 50%;
+  margin-left: -8px;
+  top: unset;
+  bottom: 19px;
+}
+:deep(.ModelBindItemB .ant-checkbox-group-item .ant-checkbox + span) {
+  width: 100%;
+}

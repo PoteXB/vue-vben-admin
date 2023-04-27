@@ -1,4 +1,5 @@
 import { defHttp } from '/@/utils/http/axios';
+import { dialogBackendHttp } from '/@/utils/http/axios';
 import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
 
 import { ErrorMessageMode } from '/#/axios';
@@ -6,19 +7,23 @@ import { ErrorMessageMode } from '/#/axios';
 enum Api {
   Login = '/login',
   Logout = '/logout',
-  GetUserInfo = '/getUserInfo',
+  GetUserInfo = '/v1/user/info',
   GetPermCode = '/getPermCode',
   TestRetry = '/testRetry',
+  Regist = '/v1/user/regist',
 }
 
+export function getLoginKeys() {
+  return dialogBackendHttp.get<{ public_key: string }>({ url: `${Api.Login}/keys` });
+}
 /**
  * @description: user login api
  */
-export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') {
-  return defHttp.post<LoginResultModel>(
+export function loginApi(data: LoginParams, mode: ErrorMessageMode = 'modal') {
+  return dialogBackendHttp.post<LoginResultModel>(
     {
       url: Api.Login,
-      params,
+      data,
     },
     {
       errorMessageMode: mode,
@@ -50,6 +55,20 @@ export function testRetry() {
         count: 5,
         waitTime: 1000,
       },
+    },
+  );
+}
+
+export type RegistParams = LoginParams & {};
+
+export function regist(params: RegistParams, mode: ErrorMessageMode = 'modal') {
+  return defHttp.post<LoginResultModel>(
+    {
+      url: Api.Regist,
+      params,
+    },
+    {
+      errorMessageMode: mode,
     },
   );
 }

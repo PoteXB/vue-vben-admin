@@ -1,7 +1,7 @@
 <template>
   <a-col v-bind="actionColOpt" v-if="showActionButtonGroup">
     <div style="width: 100%" :style="{ textAlign: actionColOpt.style.textAlign }">
-      <FormItem>
+      <FormItem :wrapperCol="actionWrapperCol">
         <slot name="resetBefore"></slot>
         <Button
           type="default"
@@ -76,6 +76,9 @@
       actionColOptions: {
         type: Object as PropType<Partial<ColEx>>,
         default: () => ({}),
+      },
+      actionWrapperCol: {
+        type: Object as PropType<Partial<ColEx>>,
       },
       actionSpan: propTypes.number.def(6),
       isAdvanced: propTypes.bool,

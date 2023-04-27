@@ -11,6 +11,8 @@ import { configHtmlPlugin } from './html';
 import { configMockPlugin } from './mock';
 import { configSvgIconsPlugin } from './svgSprite';
 import { configVisualizerConfig } from './visualizer';
+import AutoImport from 'unplugin-auto-import/vite';
+import { resolve } from 'path';
 
 interface Options {
   isBuild: boolean;
@@ -54,6 +56,14 @@ async function createPlugins({ isBuild, root, enableMock, compress, enableAnalyz
   if (enableMock) {
     vitePlugins.push(configMockPlugin({ isBuild }));
   }
+
+  // auto-import
+  vitePlugins.push(
+    AutoImport({
+      imports: ['vue'],
+      dts: resolve('src/auto-imports.d.ts'),
+    }),
+  );
 
   return vitePlugins;
 }

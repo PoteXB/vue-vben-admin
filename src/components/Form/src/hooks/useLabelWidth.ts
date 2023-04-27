@@ -17,7 +17,10 @@ export function useItemLabelWidth(schemaItemRef: Ref<FormSchema>, propsRef: Ref<
     } = unref(propsRef);
 
     // If labelWidth is set globally, all items setting
-    if ((!globalLabelWidth && !labelWidth && !globalLabelCol) || disabledLabelWidth) {
+    if (
+      (!globalLabelWidth && !labelWidth && !globalLabelCol && !globWrapperCol) ||
+      disabledLabelWidth
+    ) {
       labelCol.style = {
         textAlign: 'left',
       };

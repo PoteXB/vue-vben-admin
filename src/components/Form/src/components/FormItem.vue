@@ -6,7 +6,7 @@
   import type { ValidationRule } from 'ant-design-vue/lib/form/Form';
   import type { TableActionType } from '/@/components/Table';
   import { Col, Divider, Form } from 'ant-design-vue';
-  import { componentMap } from '../componentMap';
+  import { componentMap, componentEventMap } from '../componentMap';
   import { BasicHelp } from '/@/components/Basic';
   import { isBoolean, isFunction, isNull } from '/@/utils/is';
   import { getSlot } from '/@/utils/helper/tsxHelper';
@@ -18,6 +18,7 @@
   import { cloneDeep, upperFirst } from 'lodash-es';
   import { useItemLabelWidth } from '../hooks/useLabelWidth';
   import { useI18n } from '/@/hooks/web/useI18n';
+  import { usePermission } from '/@/hooks/web/usePermission';
 
   export default defineComponent({
     name: 'BasicFormItem',
@@ -55,6 +56,7 @@
     },
     setup(props, { slots }) {
       const { t } = useI18n();
+      const { hasPermission } = usePermission();
 
       const { schema, formProps } = toRefs(props) as {
         schema: Ref<FormSchema>;
@@ -97,6 +99,10 @@
         return componentProps as Recordable<any>;
       });
 
+      const getHasPermission = computed(() => {
+        return hasPermission(props.schema?.auth);
+      });
+
       const getDisable = computed(() => {
         const { disabled: globDisabled } = props.formProps;
         const { dynamicDisabled } = props.schema;
@@ -111,7 +117,7 @@
         return disabled;
       });
 
-      function getShow(): { isShow: boolean; isIfShow: boolean } {
+      function getShow(): { isShow: boolean; isIfShow: boolean; isHasPermission: boolean } {
         const { show, ifShow } = props.schema;
         const { showAdvancedButton } = props.formProps;
         const itemIsAdvanced = showAdvancedButton
@@ -136,7 +142,7 @@
           isIfShow = ifShow(unref(getValues));
         }
         isShow = isShow && itemIsAdvanced;
-        return { isShow, isIfShow };
+        return { isShow, isIfShow, isHasPermission: getHasPermission.value };
       }
 
       function handleRules(): ValidationRule[] {
@@ -248,11 +254,12 @@
           field,
           changeEvent = 'change',
           valueField,
+          label,
         } = props.schema;
 
         const isCheck = component && ['Switch', 'Checkbox'].includes(component);
 
-        const eventKey = `on${upperFirst(changeEvent)}`;
+        const eventKey = `on${upperFirst(componentEventMap[component] || changeEvent)}`;
 
         const on = {
           [eventKey]: (...args: Nullable<Recordable<any>>[]) => {
@@ -272,6 +279,7 @@
           allowClear: true,
           getPopupContainer: (trigger: Element) => trigger.parentNode,
           size,
+          autoComplete: 'off',
           ...unref(getComponentsProps),
           disabled: unref(getDisable),
         };
@@ -280,7 +288,8 @@
         // RangePicker place is an array
         if (isCreatePlaceholder && component !== 'RangePicker' && component) {
           propsData.placeholder =
-            unref(getComponentsProps)?.placeholder || createPlaceholderMessage(component);
+            unref(getComponentsProps)?.placeholder ||
+            `${createPlaceholderMessage(component)}${label || ''}`;
         }
         propsData.codeField = field;
         propsData.formValues = unref(getValues);
@@ -389,7 +398,7 @@
 
         const { baseColProps = {} } = props.formProps;
         const realColProps = { ...baseColProps, ...colProps };
-        const { isIfShow, isShow } = getShow();
+        const { isIfShow, isShow, isHasPermission } = getShow();
         const values = unref(getValues);
 
         const getContent = () => {
@@ -401,6 +410,7 @@
         };
 
         return (
+          isHasPermission &&
           isIfShow && (
             <Col {...realColProps} v-show={isShow}>
               {getContent()}

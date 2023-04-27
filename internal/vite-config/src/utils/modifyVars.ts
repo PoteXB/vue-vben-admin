@@ -4,7 +4,7 @@ import { generate } from '@ant-design/colors';
 // @ts-ignore: typo
 import { getThemeVariables } from 'ant-design-vue/dist/theme';
 
-const primaryColor = '#0960bd';
+const primaryColor = '#4177FB';
 
 function generateAntColors(color: string, theme: 'default' | 'dark' = 'default') {
   return generate(color, {
@@ -41,5 +41,6 @@ export function generateModifyVars() {
     'border-radius-base': '2px', //  Component/float fillet
     'link-color': primary, //   Link color
     'app-content-background': '#fafafa', //   Link color
+    'layout-body-background': '#F4F7FE', //
   };
 }

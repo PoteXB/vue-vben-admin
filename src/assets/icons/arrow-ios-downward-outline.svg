@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>下拉</title>
+    <g id="虚拟人资产管理" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="切图合集" transform="translate(-288.000000, -121.000000)" fill="#000000" fill-rule="nonzero">
+            <g id="收起" transform="translate(288.000000, 121.000000)">
+                <rect id="矩形" opacity="0" x="0" y="0" width="16" height="16"></rect>
+                <path d="M12.3,5.95 C12.15,5.8 11.95,5.75 11.75,5.75 L4.25,5.8 C4.05,5.8 3.85,5.85 3.7,6 C3.4,6.3 3.4,6.75 3.7,7.05 L7.45,10.8 C7.5,10.85 7.6,10.9 7.65,10.95 C7.65,10.95 7.7,11 7.7,11 C7.95,11.1 8.3,11.05 8.5,10.85 L12.25,7.05 C12.6,6.7 12.55,6.25 12.3,5.95 Z" id="路径" fill-opacity="0.5" transform="translate(7.987500, 8.400000) rotate(270.000000) translate(-7.987500, -8.400000) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

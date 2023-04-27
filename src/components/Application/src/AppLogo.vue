@@ -68,7 +68,7 @@
     cursor: pointer;
 
     &.light {
-      border-bottom: 1px solid @border-color-base;
+      border-bottom: 1px solid @header-light-bottom-border-color;
     }
 
     &.collapsed-show-title {
@@ -76,7 +76,7 @@
     }
 
     &.light &__title {
-      color: @primary-color;
+      color: #000000;
     }
 
     &.dark &__title {
@@ -85,7 +85,7 @@
 
     &__title {
       transition: all 0.5s;
-      font-size: 16px;
+      font-size: 20px;
       font-weight: 700;
       line-height: normal;
     }

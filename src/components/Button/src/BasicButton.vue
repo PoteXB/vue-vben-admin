@@ -35,5 +35,9 @@
   });
 
   // get inherit binding value
-  const getBindValue = computed(() => ({ ...unref(attrs), ...props }));
+  const getBindValue = computed(() => ({
+    ...unref(attrs),
+    ...props,
+    shape: props.shape || 'round',
+  }));
 </script>

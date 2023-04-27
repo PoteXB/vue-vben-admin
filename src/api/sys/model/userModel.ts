@@ -1,8 +1,9 @@
+import { getMenuListResultModel } from '/@/api/sys/model/menuModel';
 /**
  * @description: Login interface parameters
  */
 export interface LoginParams {
-  username: string;
+  name: string;
   password: string;
 }
 
@@ -15,9 +16,8 @@ export interface RoleInfo {
  * @description: Login interface return value
  */
 export interface LoginResultModel {
-  userId: string | number;
   token: string;
-  role: RoleInfo;
+  authInfo: any;
 }
 
 /**
@@ -31,8 +31,10 @@ export interface GetUserInfoModel {
   username: string;
   // 真实名字
   realName: string;
+  nickname: string;
   // 头像
   avatar: string;
   // 介绍
   desc?: string;
+  permission: getMenuListResultModel;
 }

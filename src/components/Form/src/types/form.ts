@@ -113,6 +113,8 @@ export interface FormProps {
   // Operation column configuration
   actionColOptions?: Partial<ColEx>;
 
+  actionWrapperCol?: Partial<ColEx>;
+
   // Show reset button
   showResetButton?: boolean;
   // Show confirmation button
@@ -208,6 +210,8 @@ export interface FormSchema {
   dynamicDisabled?: boolean | ((renderCallbackParams: RenderCallbackParams) => boolean);
 
   dynamicRules?: (renderCallbackParams: RenderCallbackParams) => Rule[];
+
+  auth?: string;
 }
 export interface HelpComponentProps {
   maxWidth: string;

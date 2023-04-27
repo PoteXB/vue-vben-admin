@@ -14,8 +14,9 @@ import {
 import { deepMerge } from '/@/utils';
 import { dateItemType, handleInputNumberValue, defaultValueComponents } from '../helper';
 import { dateUtil } from '/@/utils/dateUtil';
-import { cloneDeep, set, uniqBy, get } from 'lodash-es';
+import { cloneDeep, set, uniqBy, get, upperFirst } from 'lodash-es';
 import { error } from '/@/utils/log';
+import { componentEventMap } from '/@/components/Form/src/componentMap';
 
 interface UseFormActionContext {
   emit: EmitType;
@@ -145,8 +146,9 @@ export function useFormEvents({
         } else {
           unref(formModel)[key] = fieldValue;
         }
-        if (_props?.onChange) {
-          _props?.onChange(fieldValue);
+        const eventKey = `on${upperFirst(componentEventMap[schema?.component || ''] || 'change')}`;
+        if (_props?.[eventKey]) {
+          _props?.[eventKey](fieldValue);
         }
         validKeys.push(key);
       } else {

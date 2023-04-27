@@ -42,7 +42,17 @@
   import type { AdvanceState } from './types/hooks';
   import type { Ref } from 'vue';
 
-  import { defineComponent, reactive, ref, computed, unref, onMounted, watch, nextTick } from 'vue';
+  import {
+    defineComponent,
+    reactive,
+    ref,
+    computed,
+    unref,
+    onMounted,
+    watch,
+    nextTick,
+    provide,
+  } from 'vue';
   import { Form, Row } from 'ant-design-vue';
   import FormItem from './components/FormItem.vue';
   import FormAction from './components/FormAction.vue';
@@ -186,6 +196,7 @@
         schemaRef: schemaRef as Ref<FormSchema[]>,
         handleFormValues,
       });
+      provide('updateSchema', updateSchema);
 
       createFormContext({
         resetAction: resetFields,
