@@ -1,0 +1,30 @@
+diff --git a/node_modules/vite-plugin-html/dist/index.cjs b/node_modules/vite-plugin-html/dist/index.cjs
+index 704d055..4fe38ba 100644
+--- a/node_modules/vite-plugin-html/dist/index.cjs
++++ b/node_modules/vite-plugin-html/dist/index.cjs
+@@ -293,6 +293,10 @@ function createRewire(reg, page, baseUrl, proxyUrlKeys) {
+       if (excludeBaseUrl === "/") {
+         return template;
+       }
++      const isStatic = /^\/(?:[^/]+\/)*[^/]+$/.test(excludeBaseUrl)
++      if (isStatic) {
++        return pathname
++      }
+       const isApiUrl = proxyUrlKeys.some((item) => pathname.startsWith(path__default.resolve(baseUrl, item)));
+       return isApiUrl ? excludeBaseUrl : template;
+     }
+diff --git a/node_modules/vite-plugin-html/dist/index.mjs b/node_modules/vite-plugin-html/dist/index.mjs
+index 0287ff5..4a2b53b 100644
+--- a/node_modules/vite-plugin-html/dist/index.mjs
++++ b/node_modules/vite-plugin-html/dist/index.mjs
+@@ -280,6 +280,10 @@ function createRewire(reg, page, baseUrl, proxyUrlKeys) {
+       if (excludeBaseUrl === "/") {
+         return template;
+       }
++      const isStatic = /^\/(?:[^/]+\/)*[^/]+$/.test(excludeBaseUrl)
++      if (isStatic) {
++        return pathname
++      }
+       const isApiUrl = proxyUrlKeys.some((item) => pathname.startsWith(path.resolve(baseUrl, item)));
+       return isApiUrl ? excludeBaseUrl : template;
+     }
